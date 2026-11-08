@@ -18,6 +18,7 @@ package aes_uvm_pkg;
     `include "aes_throughput_sequence.svh"
     `include "aes_pre_reset_sequence.svh"
     `include "aes_coverage_sequence.svh"
+    `include "aes_key_toggle_sequence.svh"
     `include "aes_base_test.svh"
     `include "aes_smoke_test.svh"
     `include "aes_random_test.svh"
@@ -25,4 +26,5 @@ package aes_uvm_pkg;
     `include "aes_reset_test.svh"
     `include "aes_throughput_test.svh"
     `include "aes_coverage_test.svh"
+    `include "aes_key_toggle_test.svh"
 endpackage

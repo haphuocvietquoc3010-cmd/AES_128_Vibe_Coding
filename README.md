@@ -35,19 +35,19 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File sim\smoke.ps1
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File sim\regression.ps1
 ```
 
-The regression compiles the project, runs each registered test with fixed seeds `1`, `17`, and `20261109`, merges passing UCDBs, and writes text and HTML reports under `sim/reports/`. The six tests are `aes_smoke_test`, `aes_pattern_test`, `aes_random_test`, `aes_reset_test`, `aes_throughput_test`, and `aes_coverage_test`.
+The regression compiles the project, runs each registered test with fixed seeds `1`, `17`, and `20261109`, merges passing UCDBs, and writes text and HTML reports under `sim/reports/`. The seven tests are `aes_smoke_test`, `aes_pattern_test`, `aes_random_test`, `aes_reset_test`, `aes_throughput_test`, `aes_coverage_test`, and `aes_key_toggle_test`.
 
 The deterministic backpressure reproducer can be run from `sim/` by setting `TEST=aes_coverage_test`, `SEED=314159`, and `AES_PROJECT_ROOT` to the project root, then invoking `vsim -c -do run.do`.
 
 ## Latest verification results
 
-The final fresh-work-library QuestaSim 10.2c/UVM 1.1d regression passed all 18 test/seed cases. The directed backpressure seed 314159 also passed. No UVM errors/fatals, scoreboard mismatches, or assertion failures were reported.
+The final fresh-work-library QuestaSim 10.2c/UVM 1.1d regression passed all 21 test/seed cases. A focused key-toggle run (seed 4242), a clean smoke rerun, and directed backpressure seed 314159 also passed. No UVM errors/fatals, scoreboard mismatches, or assertion failures were reported.
 
 - Maximum measured sustained no-stall initiation interval: **5 cycles/block**.
-- Named RTL statement coverage: **100%** for each of the four RTL design units.
+- RTL statement coverage: **100% (92/92)**; branches: **100% (32/32)**; FEC conditions: **100% (2/2)**; FEC expressions: **100% (14/14)**; attainable RTL toggle bins: **100% (2872/2872)**.
 - UVM functional coverage: **100%**; assertions: **4/4**.
-- Aggregate all-source coverage is reported separately: 67.9% statements, 31.0% branches, 85.7% conditions, 100% expressions, and 94.2% toggles. It is not represented as RTL-only coverage.
-- No coverage exclusions were applied.
+- Aggregate RTL/testbench/reference coverage is reported separately: 67.5% statements, 30.0% branches, 71.4% FEC conditions, 100% FEC expressions, and 100% toggle bins. Its code-only filtered total is 73.7%; it is not represented as RTL-only coverage.
+- Exactly two structurally unreachable toggle bins are excluded: both directions for `aes128_block_engine.round_num[0]`, which is constant 1 by construction. No feasible RTL or key-input bins are excluded. See [docs/verification/coverage_gaps.md](docs/verification/coverage_gaps.md) for the justification and per-DU evidence.
 
 See [docs/final_verification_report.md](docs/final_verification_report.md) for per-test results, coverage details, and reproduction information. Questa HTML output does not include testplan metadata when the corresponding license feature is unavailable.
 

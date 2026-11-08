@@ -13,7 +13,8 @@ $tests = @(
     'aes_random_test',
     'aes_reset_test',
     'aes_throughput_test',
-    'aes_coverage_test'
+    'aes_coverage_test',
+    'aes_key_toggle_test'
 )
 $seeds = @(1, 17, 20261109)
 $reportRoot = Join-Path $PSScriptRoot 'reports'
@@ -100,6 +101,26 @@ try {
         if ($LASTEXITCODE -ne 0) {
             throw "RTL statement report failed for $designUnit"
         }
+    }
+
+    $rtlDetailReportPath = Join-Path $reportRoot 'coverage_rtl_code.txt'
+    Remove-Item $rtlDetailReportPath -ErrorAction SilentlyContinue
+    foreach ($designUnit in $rtlDesignUnits) {
+        "RTL design unit: $designUnit" |
+            Out-File $rtlDetailReportPath -Append
+        vcover report -code bcesft -du $designUnit -details $mergedUcdbPath |
+            Out-File $rtlDetailReportPath -Append
+
+        if ($LASTEXITCODE -ne 0) {
+            throw "RTL code coverage report failed for $designUnit"
+        }
+    }
+
+    $excludedReportPath = Join-Path $reportRoot 'coverage_excluded.txt'
+    vcover report -excluded -user $mergedUcdbPath |
+        Out-File $excludedReportPath
+    if ($LASTEXITCODE -ne 0) {
+        throw 'Questa user exclusion report failed.'
     }
 } finally {
     Pop-Location
