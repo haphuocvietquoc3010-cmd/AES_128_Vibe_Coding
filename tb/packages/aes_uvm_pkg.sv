@@ -1,0 +1,28 @@
+package aes_uvm_pkg;
+    import uvm_pkg::*;
+    import aes_ref_pkg::*;
+    `include "uvm_macros.svh"
+    `include "aes_types.svh"
+    `include "aes_sequencer.svh"
+    `include "aes_driver.svh"
+    `include "aes_coverage.svh"
+    `include "aes_input_monitor.svh"
+    `include "aes_output_monitor.svh"
+    `include "aes128_agent.svh"
+    `include "aes_scoreboard.svh"
+    `include "aes_env.svh"
+    `include "aes_base_sequence.svh"
+    `include "aes_smoke_sequence.svh"
+    `include "aes_random_sequence.svh"
+    `include "aes_pattern_sequence.svh"
+    `include "aes_throughput_sequence.svh"
+    `include "aes_pre_reset_sequence.svh"
+    `include "aes_coverage_sequence.svh"
+    `include "aes_base_test.svh"
+    `include "aes_smoke_test.svh"
+    `include "aes_random_test.svh"
+    `include "aes_pattern_test.svh"
+    `include "aes_reset_test.svh"
+    `include "aes_throughput_test.svh"
+    `include "aes_coverage_test.svh"
+endpackage
